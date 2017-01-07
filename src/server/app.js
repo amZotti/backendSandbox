@@ -3,8 +3,8 @@ import Express from 'express'
 import React from 'react'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import counterApp from './reducer'
-import App from './index'
+import counterApp from '../client/reducers/reducer.js'
+import App from '../client/containers/index.js'
 import { renderToString } from 'react-dom/server'
 
 const app = Express()
@@ -12,8 +12,9 @@ const port = 3000
 
 app.use(handleRender)
 
-
 function handleRender(req, res) {
+  //Redux's only job on the server side is to provide the initial state of our app.
+
   const store = createStore(counterApp);
 
   const html = renderToString(
