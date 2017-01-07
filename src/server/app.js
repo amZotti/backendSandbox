@@ -10,6 +10,10 @@ import { renderToString } from 'react-dom/server'
 const app = Express()
 const port = 3000
 
+app.get('/bundle.js', function(req, res) {
+    res.send('(function() { console.log("works") })()');
+});
+
 app.use(handleRender)
 
 function handleRender(req, res) {
@@ -42,7 +46,7 @@ function renderFullPage(html, preloadedState) {
           // http://redux.js.org/docs/recipes/ServerRendering.html#security-considerations
           window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState)}
         </script>
-        <script src="/static/bundle.js"></script>
+        <script src="/bundle.js"></script>
       </body>
     </html>
     `
