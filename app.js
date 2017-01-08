@@ -1,14 +1,19 @@
 var app = require('express')();
-var server = require('http').createServer(app);
+var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-
-app.get('/', function(req, res) {
-    console.log('received request');
-    res.send('<h1>works</h1>');
-});
-
-io.on('connection', function(){ /* … */ });
 server.listen(3000);
 
+app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/index.html');
+});
 
+app.get('/bundle.js', function(req, res) {
+    res.sendFile(__dirname + '/index.js');
+});
+
+io.on('connection', function (socket) {
+  socket.on('text', function (data) {
+    console.log(data);
+  });
+});
